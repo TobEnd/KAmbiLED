@@ -1,0 +1,10 @@
+build/
+.qt/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+Hyperion_Grabber_Wayland_QT
+Hyperion_Grabber_Wayland_QT_autogen/
+output.log
+.env
