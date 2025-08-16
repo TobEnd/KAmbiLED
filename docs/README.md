@@ -1,6 +1,6 @@
 # KAmbi
 
-KAmbi is a Hyperion image grabber for Wayland / Linux, designed to capture screen content, process it using a Hyperion-like algorithm, and send the calculated LED colors directly to a WLED device.
+KAmbi is a Hyperion image grabber for Wayland / Linux, designed to capture screen content, process it using a Hyperion-like algorithm, and send the calculated LED colors directly to a WLED device. This project was inspired by the original [Hyperion](https://hyperion-project.org/) project.
 
 ## Features
 
@@ -9,7 +9,32 @@ KAmbi is a Hyperion image grabber for Wayland / Linux, designed to capture scree
 *   **WLED Integration:** Sends processed LED colors to WLED devices via UDP Realtime protocol.
 *   **Flexible Configuration:** Supports configuration via command-line arguments and `.env` files, with command-line arguments taking precedence.
 
-## Compilation
+## Installation
+
+### Dependencies
+
+Before compiling, you need to install the required dependencies for your Linux distribution.
+
+**Arch Linux:**
+
+```bash
+sudo pacman -S qt6-base qt6-multimedia
+```
+
+**Ubuntu/Debian:**
+
+```bash
+sudo apt-get update
+sudo apt-get install qt6-base-dev qt6-multimedia-dev
+```
+
+**Fedora:**
+
+```bash
+sudo dnf install qt6-qtbase-devel qt6-qtmultimedia-devel
+```
+
+### Compilation
 
 To compile, navigate to the project root and run:
 
@@ -17,10 +42,14 @@ To compile, navigate to the project root and run:
 cmake . && make
 ```
 
-**Dependencies:**
-Qt6 libraries (core, gui, multimedia, multimediawidgets). On Arch Linux, these are typically provided by `qt6-base` and `qt6-multimedia`.
-
 ## Usage
+
+After successful compilation, you can run KAmbi from the `build` directory.
+
+```bash
+cd build
+./KAmbiLED
+```
 
 KAmbi can be configured using command-line arguments or by providing a `.env` file in the application's directory. Command-line arguments will always override values set in the `.env` file.
 
