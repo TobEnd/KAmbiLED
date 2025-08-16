@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10.0)
 
-project(Hyperion_Grabber_Wayland_QT VERSION 0.2 LANGUAGES C CXX)
+project(KAmbiLED VERSION 0.2 LANGUAGES C CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
@@ -17,8 +17,8 @@ endif()
 
 find_package(Qt6 COMPONENTS Core Gui WaylandClient Multimedia Widgets MultimediaWidgets Network OpenGL REQUIRED)
 
-add_executable(Hyperion_Grabber_Wayland_QT
-    ../src/hyperiongrabber.cpp
+add_executable(KAmbiLED
+    ../src/kambiled.cpp
     ../src/wledclient.cpp
     ../src/debugclient.cpp # Added debugclient.cpp
     ../src/main.cpp
@@ -30,7 +30,7 @@ add_executable(Hyperion_Grabber_Wayland_QT
     ../src/LinearColorSmoothing.cpp
 )
 
-target_link_libraries(Hyperion_Grabber_Wayland_QT
+target_link_libraries(KAmbiLED
     Qt6::Core
     Qt6::Gui
     Qt6::WaylandClient

@@ -1,5 +1,5 @@
-#ifndef HYPERIONGRABBER_H
-#define HYPERIONGRABBER_H
+#ifndef KAMBILED_H
+#define KAMBILED_H
 
 #include <QObject>
 #include <QTimer>
@@ -14,12 +14,12 @@
 
 #include "WaylandGrabber.h"
 
-class HyperionGrabber : public QObject
+class KAmbiLED : public QObject
 {
     Q_OBJECT
 public:
-    HyperionGrabber(QHash<QString, QString> opts);
-    ~HyperionGrabber();
+    KAmbiLED(QHash<QString, QString> opts);
+    ~KAmbiLED();
 
 signals:
     void imageReady(const QImage &image);
@@ -45,4 +45,4 @@ private slots:
     void _processFrame(const QVideoFrame &frame);
 };
 
-#endif // HYPERIONGRABBER_H
+#endif // KAMBILED_H

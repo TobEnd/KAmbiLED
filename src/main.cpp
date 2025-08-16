@@ -42,14 +42,14 @@ QHash<QString, QString> loadEnvFile(const QString& filePath)
     return envVars;
 }
 
-#include "hyperiongrabber.h"
+#include "kambiled.h"
 #include "HyperionProcessor.h"
 #include "wledclient.h"
 #include "LedColorMapping.h"
 #include "LinearColorSmoothing.h"
 
 // Global pointers for cleanup
-static HyperionGrabber *grabber = nullptr;
+static KAmbiLED *grabber = nullptr;
 static QApplication *qapp = nullptr;
 static HyperionProcessor *processor = nullptr;
 static WledClient *wledClient = nullptr;
@@ -133,7 +133,7 @@ static void quit(int)
     }
 }
 
-// Slot to receive and store the latest image from HyperionGrabber
+// Slot to receive and store the latest image from KAmbiLED
 void onImageReady(const QImage &image)
 {
     currentImage = image;
@@ -175,7 +175,7 @@ int main(int argc, char *argv[])
     signal(SIGINT, quit);
     signal(SIGTERM, quit);
 
-    QApplication::setApplicationName("HyperionGrabber");
+    QApplication::setApplicationName("KAmbiLED");
     QApplication::setApplicationVersion("0.2");
 
     QCommandLineParser parser;
@@ -271,12 +271,12 @@ int main(int argc, char *argv[])
     QString wledColorOrder = parser.isSet("wled-color-order") ? parser.value("wled-color-order") : (envVars.value("HYPERION_GRABBER_WLED_COLOR_ORDER").isEmpty() ? QString("GRB") : envVars.value("HYPERION_GRABBER_WLED_COLOR_ORDER"));
 
     // Instantiate components
-    grabber = new HyperionGrabber(grabberOpts);
+    grabber = new KAmbiLED(grabberOpts);
     processor = new HyperionProcessor(layout, processorConfig);
     wledClient = new WledClient(wledAddress, wledPort, wledColorOrder, processorConfig["offset"].toInt(), processorConfig["clockwise"].toBool());
 
     // Connect grabber to image receiver slot
-    QObject::connect(grabber, &HyperionGrabber::imageReady, &onImageReady);
+    QObject::connect(grabber, &KAmbiLED::imageReady, &onImageReady);
 
     // Setup timer for processing frames
     processTimer = new QTimer();
@@ -284,7 +284,7 @@ int main(int argc, char *argv[])
     QObject::connect(processTimer, &QTimer::timeout, &processCurrentFrame);
     processTimer->start();
 
-    qInfo() << "HyperionGrabber started. Sending LED colors to WLED device:" << wledAddress << ":" << wledPort;
+    qInfo() << "KAmbiLED started. Sending LED colors to WLED device:" << wledAddress << ":" << wledPort;
 
     // Print all configuration parameters
     std::cout << "--- Configuration ---" << std::endl;

@@ -56,7 +56,7 @@ Once the `_ledMap` is established, the processor calculates the final color for 
 
 The `grabberconfigurator` tool serves as a visual debugging and testing utility for this `HyperionProcessor` pipeline. Its purpose is to:
 
-1.  **Verify Screen Capture and Scaling:** Confirm that the `WaylandGrabber` and `HyperionGrabber` are correctly capturing and scaling the screen content.
+1.  **Verify Screen Capture and Scaling:** Confirm that the `WaylandGrabber` and `KAmbiLED` are correctly capturing and scaling the screen content.
 2.  **Validate Black Border Detection:** Visually inspect if the `BlackBorderDetector` is accurately identifying and cropping the black borders from the input image. The current visualization in `grabberconfigurator` shows the image *after* the black borders have been removed.
 3.  **Test LED Mapping:** Observe how the `_ledMap` is generated and how the LED regions are defined on the screen content. The visualization outlines these regions.
 4.  **Evaluate Color Calculation:** Ultimately, this tool will allow us to see the final calculated LED colors in real-time, helping us fine-tune the color calculation algorithms and LED layout for the best Ambilight experience.

@@ -1,4 +1,4 @@
-#include "hyperiongrabber.h"
+#include "kambiled.h"
 #include <QCoreApplication>
 #include <QScreen>
 #include <QGuiApplication>
@@ -7,7 +7,7 @@
 
 // public
 
-HyperionGrabber::HyperionGrabber(QHash<QString, QString> opts)
+KAmbiLED::KAmbiLED(QHash<QString, QString> opts)
 {
     QString addr = "192.168.1.177"; // Default WLED IP
     unsigned short port = 4048; // Default DDP port
@@ -38,7 +38,7 @@ HyperionGrabber::HyperionGrabber(QHash<QString, QString> opts)
     // _client_p = new WledClient(addr, port, this); // Removed as client is now handled by GrabberConfigurator
 
     _waylandGrabber_p = new WaylandGrabber(this);
-    connect(_waylandGrabber_p, &WaylandGrabber::frameReady, this, &HyperionGrabber::_processFrame);
+    connect(_waylandGrabber_p, &WaylandGrabber::frameReady, this, &KAmbiLED::_processFrame);
     _waylandGrabber_p->start();
     
     QScreen *screen = QGuiApplication::primaryScreen();
@@ -49,7 +49,7 @@ HyperionGrabber::HyperionGrabber(QHash<QString, QString> opts)
     }
 }
 
-HyperionGrabber::~HyperionGrabber()
+KAmbiLED::~KAmbiLED()
 {
     if (_timer_p) {
         _timer_p->stop();
@@ -60,7 +60,7 @@ HyperionGrabber::~HyperionGrabber()
 
 // private slots
 
-void HyperionGrabber::_processFrame(const QVideoFrame &frame)
+void KAmbiLED::_processFrame(const QVideoFrame &frame)
 {
     if (!frame.isValid()) {
         return;
