@@ -52,20 +52,10 @@ Once the `_ledMap` is established, the processor calculates the final color for 
 *   **Current Color Algorithm (Mean Color):** Currently, the `getAverageColor` function calculates the simple arithmetic mean of the Red, Green, and Blue components of all pixels within an LED's mapped region. This provides a smooth and representative color for the area.
     *   *Future Enhancements:* Hyperion.ng offers other color calculation methods (e.g., mean squared, dominant color, k-means clustering) which could be implemented here for different visual effects.
 
-## What We Are Trying to Achieve Here (with `grabberconfigurator`)
 
-The `grabberconfigurator` tool serves as a visual debugging and testing utility for this `HyperionProcessor` pipeline. Its purpose is to:
+## Default Parameters
 
-1.  **Verify Screen Capture and Scaling:** Confirm that the `WaylandGrabber` and `KAmbiLED` are correctly capturing and scaling the screen content.
-2.  **Validate Black Border Detection:** Visually inspect if the `BlackBorderDetector` is accurately identifying and cropping the black borders from the input image. The current visualization in `grabberconfigurator` shows the image *after* the black borders have been removed.
-3.  **Test LED Mapping:** Observe how the `_ledMap` is generated and how the LED regions are defined on the screen content. The visualization outlines these regions.
-4.  **Evaluate Color Calculation:** Ultimately, this tool will allow us to see the final calculated LED colors in real-time, helping us fine-tune the color calculation algorithms and LED layout for the best Ambilight experience.
-
-By breaking down the complex process into these observable steps, we can systematically develop and refine our Hyperion-like image processing capabilities.
-
-## Original Hyperion.ng Default Parameters
-
-This section outlines the default configuration parameters used by the original Hyperion.ng project for its image processing and related functionalities, as defined in its schema files. These values represent the out-of-the-box behavior of Hyperion.ng when no custom configuration is provided.
+These values represent the out-of-the-box behavior when no custom configuration is provided.
 
 ### Black Border Detector Defaults (`schema-blackborderdetector.json`)
 
