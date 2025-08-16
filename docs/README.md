@@ -1,6 +1,6 @@
 # KAmbi
 
-KAmbi is a Hyperion image grabber for Wayland / Linux, designed to capture screen content, process it using a Hyperion-like algorithm, and send the calculated LED colors directly to a WLED device. This project was inspired by the original [Hyperion](https://hyperion-project.org/) project.
+KAmbiLED is a Hyperion image grabber for Wayland / Linux, designed to capture screen content, process it using a Hyperion-like algorithm, and send the calculated LED colors directly to a WLED device. This project was inspired by the original [Hyperion](https://hyperion-project.org/) project.
 
 ## Features
 
@@ -44,14 +44,14 @@ cmake . && make
 
 ## Usage
 
-After successful compilation, you can run KAmbi from the `build` directory.
+After successful compilation, you can run KAmbiLED from the `build` directory.
 
 ```bash
 cd build
 ./KAmbiLED
 ```
 
-KAmbi can be configured using command-line arguments or by providing a `.env` file in the application's directory. Command-line arguments will always override values set in the `.env` file.
+KAmbiLED can be configured using command-line arguments or by providing a `.env` file in the application's directory. Command-line arguments will always override values set in the `.env` file.
 
 ### Configuration Parameters
 
@@ -117,7 +117,7 @@ Here's a list of available configuration parameters:
 
 ### Example Usage
 
-To run KAmbi with a specific WLED address and LED offset:
+To run KAmbiLED with a specific WLED address and LED offset:
 
 ```bash
 ./KAmbiLED --wled-address 192.168.1.177 --offset 10
