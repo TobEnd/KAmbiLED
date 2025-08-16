@@ -220,55 +220,55 @@ int main(int argc, char *argv[])
     }
 
     // Read configuration from environment variables and command line
-    QString wledAddress = parser.isSet("wled-address") ? parser.value("wled-address") : envVars.value("HYPERION_GRABBER_WLED_ADDRESS");
+    QString wledAddress = parser.isSet("wled-address") ? parser.value("wled-address") : envVars.value("KAMBILED_WLED_ADDRESS");
     if (wledAddress.isEmpty()) {
-        qCritical() << "Error: WLED Address not set. Use --wled-address or HYPERION_GRABBER_WLED_ADDRESS environment variable.";
+        qCritical() << "Error: WLED Address not set. Use --wled-address or KAMBILED_WLED_ADDRESS environment variable.";
         return 1;
     }
 
-    quint16 wledPort = parser.isSet("wled-port") ? parser.value("wled-port").toUShort() : envVars.value("HYPERION_GRABBER_WLED_PORT").toUShort();
+    quint16 wledPort = parser.isSet("wled-port") ? parser.value("wled-port").toUShort() : envVars.value("KAMBILED_WLED_PORT").toUShort();
     if (wledPort == 0) wledPort = 21324; // Default WLED UDP Realtime port
 
     QHash<QString, QString> grabberOpts;
-    grabberOpts.insert("scale", parser.isSet("scale") ? parser.value("scale") : (envVars.value("HYPERION_GRABBER_SCALE").isEmpty() ? "8" : envVars.value("HYPERION_GRABBER_SCALE")));
-    grabberOpts.insert("frameskip", parser.isSet("frameskip") ? parser.value("frameskip") : (envVars.value("HYPERION_GRABBER_FRAMESKIP").isEmpty() ? "0" : envVars.value("HYPERION_GRABBER_FRAMESKIP")));
-    grabberOpts.insert("changeThreshold", parser.isSet("change-threshold") ? parser.value("change-threshold") : (envVars.value("HYPERION_GRABBER_CHANGE_THRESHOLD").isEmpty() ? "100" : envVars.value("HYPERION_GRABBER_CHANGE_THRESHOLD")));
+    grabberOpts.insert("scale", parser.isSet("scale") ? parser.value("scale") : (envVars.value("KAMBILED_SCALE").isEmpty() ? "8" : envVars.value("KAMBILED_SCALE")));
+    grabberOpts.insert("frameskip", parser.isSet("frameskip") ? parser.value("frameskip") : (envVars.value("KAMBILED_FRAMESKIP").isEmpty() ? "0" : envVars.value("KAMBILED_FRAMESKIP")));
+    grabberOpts.insert("changeThreshold", parser.isSet("change-threshold") ? parser.value("change-threshold") : (envVars.value("KAMBILED_CHANGE_THRESHOLD").isEmpty() ? "100" : envVars.value("KAMBILED_CHANGE_THRESHOLD")));
 
     LedLayout layout;
-    layout.bottom = parser.isSet("leds-bottom") ? parser.value("leds-bottom").toInt() : (envVars.value("HYPERION_GRABBER_LEDS_BOTTOM").isEmpty() ? 71 : envVars.value("HYPERION_GRABBER_LEDS_BOTTOM").toInt());
-    layout.right = parser.isSet("leds-right") ? parser.value("leds-right").toInt() : (envVars.value("HYPERION_GRABBER_LEDS_RIGHT").isEmpty() ? 20 : envVars.value("HYPERION_GRABBER_LEDS_RIGHT").toInt());
-    layout.top = parser.isSet("leds-top") ? parser.value("leds-top").toInt() : (envVars.value("HYPERION_GRABBER_LEDS_TOP").isEmpty() ? 72 : envVars.value("HYPERION_GRABBER_LEDS_TOP").toInt());
-    layout.left = parser.isSet("leds-left") ? parser.value("leds-left").toInt() : (envVars.value("HYPERION_GRABBER_LEDS_LEFT").isEmpty() ? 20 : envVars.value("HYPERION_GRABBER_LEDS_LEFT").toInt());
+    layout.bottom = parser.isSet("leds-bottom") ? parser.value("leds-bottom").toInt() : (envVars.value("KAMBILED_LEDS_BOTTOM").isEmpty() ? 71 : envVars.value("KAMBILED_LEDS_BOTTOM").toInt());
+    layout.right = parser.isSet("leds-right") ? parser.value("leds-right").toInt() : (envVars.value("KAMBILED_LEDS_RIGHT").isEmpty() ? 20 : envVars.value("KAMBILED_LEDS_RIGHT").toInt());
+    layout.top = parser.isSet("leds-top") ? parser.value("leds-top").toInt() : (envVars.value("KAMBILED_LEDS_TOP").isEmpty() ? 72 : envVars.value("KAMBILED_LEDS_TOP").toInt());
+    layout.left = parser.isSet("leds-left") ? parser.value("leds-left").toInt() : (envVars.value("KAMBILED_LEDS_LEFT").isEmpty() ? 20 : envVars.value("KAMBILED_LEDS_LEFT").toInt());
 
     // Black Border Detector Configuration
     QJsonObject blackBorderDetectorConfig;
-    blackBorderDetectorConfig["enable"] = parser.isSet("bb-enable") ? (parser.value("bb-enable").toLower() == "true") : (envVars.value("HYPERION_GRABBER_BB_ENABLE").isEmpty() ? true : (envVars.value("HYPERION_GRABBER_BB_ENABLE").toLower() == "true"));
-    blackBorderDetectorConfig["threshold"] = parser.isSet("bb-threshold") ? parser.value("bb-threshold").toInt() : (envVars.value("HYPERION_GRABBER_BB_THRESHOLD").isEmpty() ? 5 : envVars.value("HYPERION_GRABBER_BB_THRESHOLD").toInt());
-    blackBorderDetectorConfig["unknownFrameCnt"] = parser.isSet("bb-unknown-frame-cnt") ? parser.value("bb-unknown-frame-cnt").toInt() : (envVars.value("HYPERION_GRABBER_BB_UNKNOWN_FRAME_CNT").isEmpty() ? 600 : envVars.value("HYPERION_GRABBER_BB_UNKNOWN_FRAME_CNT").toInt());
-    blackBorderDetectorConfig["borderFrameCnt"] = parser.isSet("bb-border-frame-cnt") ? parser.value("bb-border-frame-cnt").toInt() : (envVars.value("HYPERION_GRABBER_BB_BORDER_FRAME_CNT").isEmpty() ? 50 : envVars.value("HYPERION_GRABBER_BB_BORDER_FRAME_CNT").toInt());
-    blackBorderDetectorConfig["maxInconsistentCnt"] = parser.isSet("bb-max-inconsistent-cnt") ? parser.value("bb-max-inconsistent-cnt").toInt() : (envVars.value("HYPERION_GRABBER_BB_MAX_INCONSISTENT_CNT").isEmpty() ? 10 : envVars.value("HYPERION_GRABBER_BB_MAX_INCONSISTENT_CNT").toInt());
-    blackBorderDetectorConfig["blurRemoveCnt"] = parser.isSet("bb-blur-remove-cnt") ? parser.value("bb-blur-remove-cnt").toInt() : (envVars.value("HYPERION_GRABBER_BB_BLUR_REMOVE_CNT").isEmpty() ? 1 : envVars.value("HYPERION_GRABBER_BB_BLUR_REMOVE_CNT").toInt());
-    blackBorderDetectorConfig["mode"] = parser.isSet("bb-mode") ? parser.value("bb-mode") : (envVars.value("HYPERION_GRABBER_BB_MODE").isEmpty() ? QString("default") : envVars.value("HYPERION_GRABBER_BB_MODE"));
+    blackBorderDetectorConfig["enable"] = parser.isSet("bb-enable") ? (parser.value("bb-enable").toLower() == "true") : (envVars.value("KAMBILED_BB_ENABLE").isEmpty() ? true : (envVars.value("KAMBILED_BB_ENABLE").toLower() == "true"));
+    blackBorderDetectorConfig["threshold"] = parser.isSet("bb-threshold") ? parser.value("bb-threshold").toInt() : (envVars.value("KAMBILED_BB_THRESHOLD").isEmpty() ? 5 : envVars.value("KAMBILED_BB_THRESHOLD").toInt());
+    blackBorderDetectorConfig["unknownFrameCnt"] = parser.isSet("bb-unknown-frame-cnt") ? parser.value("bb-unknown-frame-cnt").toInt() : (envVars.value("KAMBILED_BB_UNKNOWN_FRAME_CNT").isEmpty() ? 600 : envVars.value("KAMBILED_BB_UNKNOWN_FRAME_CNT").toInt());
+    blackBorderDetectorConfig["borderFrameCnt"] = parser.isSet("bb-border-frame-cnt") ? parser.value("bb-border-frame-cnt").toInt() : (envVars.value("KAMBILED_BB_BORDER_FRAME_CNT").isEmpty() ? 50 : envVars.value("KAMBILED_BB_BORDER_FRAME_CNT").toInt());
+    blackBorderDetectorConfig["maxInconsistentCnt"] = parser.isSet("bb-max-inconsistent-cnt") ? parser.value("bb-max-inconsistent-cnt").toInt() : (envVars.value("KAMBILED_BB_MAX_INCONSISTENT_CNT").isEmpty() ? 10 : envVars.value("KAMBILED_BB_MAX_INCONSISTENT_CNT").toInt());
+    blackBorderDetectorConfig["blurRemoveCnt"] = parser.isSet("bb-blur-remove-cnt") ? parser.value("bb-blur-remove-cnt").toInt() : (envVars.value("KAMBILED_BB_BLUR_REMOVE_CNT").isEmpty() ? 1 : envVars.value("KAMBILED_BB_BLUR_REMOVE_CNT").toInt());
+    blackBorderDetectorConfig["mode"] = parser.isSet("bb-mode") ? parser.value("bb-mode") : (envVars.value("KAMBILED_BB_MODE").isEmpty() ? QString("default") : envVars.value("KAMBILED_BB_MODE"));
 
     // Smoothing Configuration
     QJsonObject smoothingConfig;
-    smoothingConfig["enable"] = parser.isSet("smooth-enable") ? (parser.value("smooth-enable").toLower() == "true") : (envVars.value("HYPERION_GRABBER_SMOOTH_ENABLE").isEmpty() ? true : (envVars.value("HYPERION_GRABBER_SMOOTH_ENABLE").toLower() == "true"));
-    smoothingConfig["type"] = parser.isSet("smooth-type") ? parser.value("smooth-type") : (envVars.value("HYPERION_GRABBER_SMOOTH_TYPE").isEmpty() ? QString("linear") : envVars.value("HYPERION_GRABBER_SMOOTH_TYPE"));
-    smoothingConfig["time_ms"] = parser.isSet("smooth-time-ms") ? parser.value("smooth-time-ms").toInt() : (envVars.value("HYPERION_GRABBER_SMOOTH_TIME_MS").isEmpty() ? 150 : envVars.value("HYPERION_GRABBER_SMOOTH_TIME_MS").toInt());
-    smoothingConfig["updateFrequency"] = parser.isSet("smooth-update-frequency") ? parser.value("smooth-update-frequency").toDouble() : (envVars.value("HYPERION_GRABBER_SMOOTH_UPDATE_FREQUENCY").isEmpty() ? 25.0 : envVars.value("HYPERION_GRABBER_SMOOTH_UPDATE_FREQUENCY").toDouble());
-    smoothingConfig["interpolationRate"] = parser.isSet("smooth-interpolation-rate") ? parser.value("smooth-interpolation-rate").toDouble() : (envVars.value("HYPERION_GRABBER_SMOOTH_INTERPOLATION_RATE").isEmpty() ? 1.0 : envVars.value("HYPERION_GRABBER_SMOOTH_INTERPOLATION_RATE").toDouble());
-    smoothingConfig["decay"] = parser.isSet("smooth-decay") ? parser.value("smooth-decay").toDouble() : (envVars.value("HYPERION_GRABBER_SMOOTH_DECAY").isEmpty() ? 1.0 : envVars.value("HYPERION_GRABBER_SMOOTH_DECAY").toDouble());
-    smoothingConfig["dithering"] = parser.isSet("smooth-dithering") ? (parser.value("smooth-dithering").toLower() == "true") : (envVars.value("HYPERION_GRABBER_SMOOTH_DITHERING").isEmpty() ? true : (envVars.value("HYPERION_GRABBER_SMOOTH_DITHERING").toLower() == "true"));
-    smoothingConfig["updateDelay"] = parser.isSet("smooth-update-delay") ? parser.value("smooth-update-delay").toInt() : (envVars.value("HYPERION_GRABBER_SMOOTH_UPDATE_DELAY").isEmpty() ? 0 : envVars.value("HYPERION_GRABBER_SMOOTH_UPDATE_DELAY").toInt());
+    smoothingConfig["enable"] = parser.isSet("smooth-enable") ? (parser.value("smooth-enable").toLower() == "true") : (envVars.value("KAMBILED_SMOOTH_ENABLE").isEmpty() ? true : (envVars.value("KAMBILED_SMOOTH_ENABLE").toLower() == "true"));
+    smoothingConfig["type"] = parser.isSet("smooth-type") ? parser.value("smooth-type") : (envVars.value("KAMBILED_SMOOTH_TYPE").isEmpty() ? QString("linear") : envVars.value("KAMBILED_SMOOTH_TYPE"));
+    smoothingConfig["time_ms"] = parser.isSet("smooth-time-ms") ? parser.value("smooth-time-ms").toInt() : (envVars.value("KAMBILED_SMOOTH_TIME_MS").isEmpty() ? 150 : envVars.value("KAMBILED_SMOOTH_TIME_MS").toInt());
+    smoothingConfig["updateFrequency"] = parser.isSet("smooth-update-frequency") ? parser.value("smooth-update-frequency").toDouble() : (envVars.value("KAMBILED_SMOOTH_UPDATE_FREQUENCY").isEmpty() ? 25.0 : envVars.value("KAMBILED_SMOOTH_UPDATE_FREQUENCY").toDouble());
+    smoothingConfig["interpolationRate"] = parser.isSet("smooth-interpolation-rate") ? parser.value("smooth-interpolation-rate").toDouble() : (envVars.value("KAMBILED_SMOOTH_INTERPOLATION_RATE").isEmpty() ? 1.0 : envVars.value("KAMBILED_SMOOTH_INTERPOLATION_RATE").toDouble());
+    smoothingConfig["decay"] = parser.isSet("smooth-decay") ? parser.value("smooth-decay").toDouble() : (envVars.value("KAMBILED_SMOOTH_DECAY").isEmpty() ? 1.0 : envVars.value("KAMBILED_SMOOTH_DECAY").toDouble());
+    smoothingConfig["dithering"] = parser.isSet("smooth-dithering") ? (parser.value("smooth-dithering").toLower() == "true") : (envVars.value("KAMBILED_SMOOTH_DITHERING").isEmpty() ? true : (envVars.value("KAMBILED_SMOOTH_DITHERING").toLower() == "true"));
+    smoothingConfig["updateDelay"] = parser.isSet("smooth-update-delay") ? parser.value("smooth-update-delay").toInt() : (envVars.value("KAMBILED_SMOOTH_UPDATE_DELAY").isEmpty() ? 0 : envVars.value("KAMBILED_SMOOTH_UPDATE_DELAY").toInt());
 
     QJsonObject processorConfig;
     processorConfig["blackborderdetector"] = blackBorderDetectorConfig;
     processorConfig["smoothing"] = smoothingConfig;
-    processorConfig["colorAlgorithm"] = parser.isSet("color-algorithm") ? parser.value("color-algorithm") : (envVars.value("HYPERION_GRABBER_COLOR_ALGORITHM").isEmpty() ? QString("mean_sqrt") : envVars.value("HYPERION_GRABBER_COLOR_ALGORITHM"));
-    processorConfig["offset"] = parser.isSet("offset") ? parser.value("offset").toInt() : (envVars.value("HYPERION_GRABBER_LED_OFFSET").isEmpty() ? 0 : envVars.value("HYPERION_GRABBER_LED_OFFSET").toInt());
-    processorConfig["clockwise"] = parser.isSet("clockwise") ? (parser.value("clockwise").toLower() == "true") : (envVars.value("HYPERION_GRABBER_LED_CLOCKWISE").isEmpty() ? false : (envVars.value("HYPERION_GRABBER_LED_CLOCKWISE").toLower() == "true"));
+    processorConfig["colorAlgorithm"] = parser.isSet("color-algorithm") ? parser.value("color-algorithm") : (envVars.value("KAMBILED_COLOR_ALGORITHM").isEmpty() ? QString("mean_sqrt") : envVars.value("KAMBILED_COLOR_ALGORITHM"));
+    processorConfig["offset"] = parser.isSet("offset") ? parser.value("offset").toInt() : (envVars.value("KAMBILED_LED_OFFSET").isEmpty() ? 0 : envVars.value("KAMBILED_LED_OFFSET").toInt());
+    processorConfig["clockwise"] = parser.isSet("clockwise") ? (parser.value("clockwise").toLower() == "true") : (envVars.value("KAMBILED_LED_CLOCKWISE").isEmpty() ? false : (envVars.value("KAMBILED_LED_CLOCKWISE").toLower() == "true"));
 
-    QString wledColorOrder = parser.isSet("wled-color-order") ? parser.value("wled-color-order") : (envVars.value("HYPERION_GRABBER_WLED_COLOR_ORDER").isEmpty() ? QString("GRB") : envVars.value("HYPERION_GRABBER_WLED_COLOR_ORDER"));
+    QString wledColorOrder = parser.isSet("wled-color-order") ? parser.value("wled-color-order") : (envVars.value("KAMBILED_WLED_COLOR_ORDER").isEmpty() ? QString("GRB") : envVars.value("KAMBILED_WLED_COLOR_ORDER"));
 
     // Instantiate components
     grabber = new KAmbiLED(grabberOpts);
