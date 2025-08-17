@@ -8,3 +8,4 @@ KAmbiLED
 KAmbiLED_autogen/
 output.log
 .env
+.idea/
