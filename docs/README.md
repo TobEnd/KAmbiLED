@@ -1,6 +1,6 @@
 # KAmbiLED
 
-KAmbiLED is a Hyperion image grabber for Wayland / Linux, designed to capture screen content, process it using a Hyperion-like algorithm, and send the calculated LED colors directly to a WLED device. This project was inspired by the original [Hyperion](https://hyperion-project.org/) project.
+KAmbiLED is an image grabber for Wayland / Linux, designed to capture screen content, process it using a Hyperion-like algorithm, and send the calculated LED colors directly to a WLED device. This project was inspired by the original [Hyperion](https://hyperion-project.org/) project.
 
 [KAmbiLED-Demo.webm](https://github.com/user-attachments/assets/8374505e-28df-4a63-aa79-c6c2298d88ef)
 
